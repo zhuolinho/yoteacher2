@@ -13,6 +13,11 @@
 		06909BA11B36A45600BBB358 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06909BA01B36A45600BBB358 /* Images.xcassets */; };
 		06909BA41B36A45600BBB358 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06909BA21B36A45600BBB358 /* LaunchScreen.xib */; };
 		06909BB01B36A45600BBB358 /* yoteacher2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06909BAF1B36A45600BBB358 /* yoteacher2Tests.swift */; };
+		06BDD1C51B3AA867009E9610 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06BDD1C41B3AA867009E9610 /* libPushSDK-1.8.3.a */; };
+		06BDD1C81B3AAAC7009E9610 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06BDD1C71B3AAAC7009E9610 /* SystemConfiguration.framework */; };
+		06BDD1CA1B3AAAE6009E9610 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06BDD1C91B3AAAE6009E9610 /* CoreTelephony.framework */; };
+		06BDD1CC1B3AABAF009E9610 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 06BDD1CB1B3AABAF009E9610 /* libz.dylib */; };
+		06BDD1D11B3AABFB009E9610 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06BDD1D01B3AABFB009E9610 /* PushConfig.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +41,13 @@
 		06909BA91B36A45600BBB358 /* yoteacher2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = yoteacher2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		06909BAE1B36A45600BBB358 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06909BAF1B36A45600BBB358 /* yoteacher2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = yoteacher2Tests.swift; sourceTree = "<group>"; };
+		06BDD1C01B3AA824009E9610 /* yoteacher2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "yoteacher2-Bridging-Header.h"; sourceTree = "<group>"; };
+		06BDD1C31B3AA867009E9610 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APService.h; path = libJPush/APService.h; sourceTree = "<group>"; };
+		06BDD1C41B3AA867009E9610 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.3.a"; path = "libJPush/libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
+		06BDD1C71B3AAAC7009E9610 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		06BDD1C91B3AAAE6009E9610 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		06BDD1CB1B3AABAF009E9610 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		06BDD1D01B3AABFB009E9610 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PushConfig.plist; path = libJPush/PushConfig.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +55,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06BDD1CC1B3AABAF009E9610 /* libz.dylib in Frameworks */,
+				06BDD1CA1B3AAAE6009E9610 /* CoreTelephony.framework in Frameworks */,
+				06BDD1C81B3AAAC7009E9610 /* SystemConfiguration.framework in Frameworks */,
+				06BDD1C51B3AA867009E9610 /* libPushSDK-1.8.3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +75,9 @@
 		06909B8B1B36A45500BBB358 = {
 			isa = PBXGroup;
 			children = (
+				06BDD1CD1B3AABC3009E9610 /* framework */,
+				06BDD1C61B3AA86B009E9610 /* libJPush */,
+				06BDD1C01B3AA824009E9610 /* yoteacher2-Bridging-Header.h */,
 				06909B961B36A45600BBB358 /* yoteacher2 */,
 				06909BAC1B36A45600BBB358 /* yoteacher2Tests */,
 				06909B951B36A45600BBB358 /* Products */,
@@ -110,6 +129,26 @@
 				06909BAE1B36A45600BBB358 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		06BDD1C61B3AA86B009E9610 /* libJPush */ = {
+			isa = PBXGroup;
+			children = (
+				06BDD1D01B3AABFB009E9610 /* PushConfig.plist */,
+				06BDD1C31B3AA867009E9610 /* APService.h */,
+				06BDD1C41B3AA867009E9610 /* libPushSDK-1.8.3.a */,
+			);
+			name = libJPush;
+			sourceTree = "<group>";
+		};
+		06BDD1CD1B3AABC3009E9610 /* framework */ = {
+			isa = PBXGroup;
+			children = (
+				06BDD1CB1B3AABAF009E9610 /* libz.dylib */,
+				06BDD1C91B3AAAE6009E9610 /* CoreTelephony.framework */,
+				06BDD1C71B3AAAC7009E9610 /* SystemConfiguration.framework */,
+			);
+			name = framework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,6 +230,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06BDD1D11B3AABFB009E9610 /* PushConfig.plist in Resources */,
 				06909B9F1B36A45600BBB358 /* Main.storyboard in Resources */,
 				06909BA41B36A45600BBB358 /* LaunchScreen.xib in Resources */,
 				06909BA11B36A45600BBB358 /* Images.xcassets in Resources */,
@@ -341,7 +381,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = yoteacher2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libJPush",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "yoteacher2-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -351,7 +396,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = yoteacher2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libJPush",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "yoteacher2-Bridging-Header.h";
 			};
 			name = Release;
 		};
