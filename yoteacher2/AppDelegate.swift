@@ -16,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        let userNotificationTypes = UIUserNotificationType.Badge | UIUserNotificationType.Sound | UIUserNotificationType.Alert
+        APService.registerForRemoteNotificationTypes(userNotificationTypes.rawValue, categories: nil)
         APService.setupWithOption(launchOptions)
         return true
     }
@@ -41,7 +43,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        println("ffff")
+    }
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        APService.handleRemoteNotification(userInfo)
+        completionHandler(UIBackgroundFetchResult.NewData)
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceTokens deviceToken: NSData) {
+        APService.registerDeviceToken(deviceToken)
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        APService.handleRemoteNotification(userInfo)
+    }
 
 }
 
