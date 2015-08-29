@@ -14,13 +14,14 @@
 
 @property (nonatomic) id<APIProtocol> delegate;
 
-- (void)post:(NSString *)action dic:(NSDictionary *)dic;
+- (void)login:(NSString *)username password:(NSString *)password;
+- (void)getMyInfo;
 
 @end
 
 @protocol APIProtocol <NSObject>
 
 - (void)didReceiveAPIResponseOf: (API *)api data: (NSDictionary *)data;
-- (void)didReceiveAPIErrorOf: (API *)api data: (int)errorNo;
+- (void)didReceiveAPIErrorOf: (API *)api data: (long)errorNo;
 
 @end

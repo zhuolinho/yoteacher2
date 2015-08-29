@@ -270,7 +270,7 @@
 
 //title
 "title.conversation" = "Conversations";
-"title.addressbook" = "AddressBook";
+"title.addressbook" = "Orders";
 "title.setting" = "Setting";
 "title.group" = "Group";
 "title.chatroom" = "Chatroom";

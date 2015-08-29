@@ -13,6 +13,7 @@
 #import "LoginViewController.h"
 #import "EMError.h"
 #import "API.h"
+#import "APService.h"
 
 @interface LoginViewController ()<IChatManagerDelegate,UITextFieldDelegate,APIProtocol> {
     API *myAPI;
@@ -81,8 +82,8 @@
 
 //注册账号
 - (IBAction)doRegister:(id)sender {
-    NSDictionary *d = [[NSDictionary alloc]initWithObjectsAndKeys:@"zhuolinho", @"username", @"0.0.0.", @"password", nil];
-    [myAPI post:@"auth.action" dic:d];
+//    NSDictionary *d = [[NSDictionary alloc]initWithObjectsAndKeys:@"zhuolinho", @"username", @"0.0.0.", @"password", nil];
+//    [myAPI post:@"auth.action" dic:d];
 }
 
 //点击登陆后的操作
@@ -184,7 +185,8 @@
         [self loginWithUsername:_usernameTextField.text password:_passwordTextField.text];
 #endif
          */
-        [self loginWithUsername:_usernameTextField.text password:_passwordTextField.text];
+//        [self loginWithUsername:_usernameTextField.text password:_passwordTextField.text];
+        [myAPI login:_usernameTextField.text password:_passwordTextField.text];
     }
 }
 
@@ -255,12 +257,23 @@
     return nil;
 }
 
-- (void)didReceiveAPIErrorOf:(API *)api data:(int)errorNo {
-    NSLog(@"%i",errorNo);
+- (void)didReceiveAPIErrorOf:(API *)api data:(long)errorNo {
+    NSLog(@"%ld",errorNo);
 }
 
 - (void)didReceiveAPIResponseOf:(API *)api data:(NSDictionary *)data {
-    NSLog(@"%@",data);
+    NSDictionary *res = data[@"result"];
+    if (![res[@"token"] isEqual: @"wrong"]) {
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        [ud setObject:res[@"token"] forKey:@"yo_token"];
+        [ud synchronize];
+        NSLog(@"%@",res[@"token"]);
+        [APService setAlias:res[@"username"] callbackSelector:nil object:nil];
+        [self loginWithUsername:res[@"username"] password:@"123456"];
+    }
+    else {
+        TTAlertNoTitle(@"密码错误");
+    }
 }
 
 @end

@@ -19,6 +19,7 @@
 #import "EditNicknameViewController.h"
 #import "UserProfileEditViewController.h"
 //#import "BackupViewController.h"
+#import "APService.h"
 
 @interface SettingsViewController ()
 
@@ -108,12 +109,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 9;
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -292,6 +293,10 @@
         }
         else{
             [[ApplyViewController shareController] clear];
+            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+            [ud setObject:@"" forKey:@"yo_token"];
+            [ud synchronize];
+//            [APService setAlias:@"" callbackSelector:nil object:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@NO];
         }
     } onQueue:nil];

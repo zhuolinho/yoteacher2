@@ -249,8 +249,9 @@
     else{
         //获取群组列表
         [[EaseMob sharedInstance].chatManager asyncFetchMyGroupsList];
-        
+        [APService setAlias:loginInfo[@"username"] callbackSelector:nil object:nil];
         alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"login.endAutoLogin", @"End automatic login...") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+        NSLog(@"%@", loginInfo);
     }
     
 //    [alertView show];

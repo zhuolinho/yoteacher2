@@ -10,6 +10,7 @@
 		0645943C1B8B6CEB00C8216C /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0645943A1B8B6CEB00C8216C /* libPushSDK.a */; };
 		0645943D1B8B6CEB00C8216C /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0645943B1B8B6CEB00C8216C /* PushConfig.plist */; };
 		06C60D8B1B8C9F7600913564 /* libEaseMobClientSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C60D8A1B8C9F7600913564 /* libEaseMobClientSDK.a */; };
+		06E1A0E51B903F2900180578 /* OrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E1A0E41B903F2900180578 /* OrdersViewController.m */; };
 		06E723D41B8CA7B50025E773 /* API.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E723D31B8CA7B50025E773 /* API.m */; };
 		283403091A9EBB8200B7DE9B /* GroupSubjectChangingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 283403081A9EBB8200B7DE9B /* GroupSubjectChangingViewController.m */; };
 		28BB9D1C1B2AFB2900AB7BA2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 28BB9D1B1B2AFB2900AB7BA2 /* Settings.bundle */; };
@@ -378,6 +379,8 @@
 		0645943A1B8B6CEB00C8216C /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
 		0645943B1B8B6CEB00C8216C /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		06C60D8A1B8C9F7600913564 /* libEaseMobClientSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEaseMobClientSDK.a; sourceTree = "<group>"; };
+		06E1A0E31B903F2900180578 /* OrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrdersViewController.h; sourceTree = "<group>"; };
+		06E1A0E41B903F2900180578 /* OrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersViewController.m; sourceTree = "<group>"; };
 		06E723D21B8CA7B50025E773 /* API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = API.h; sourceTree = "<group>"; };
 		06E723D31B8CA7B50025E773 /* API.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = API.m; sourceTree = "<group>"; };
 		283403071A9EBB8200B7DE9B /* GroupSubjectChangingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupSubjectChangingViewController.h; sourceTree = "<group>"; };
@@ -963,6 +966,8 @@
 		06E723D11B8CA7B50025E773 /* YoTeacher */ = {
 			isa = PBXGroup;
 			children = (
+				06E1A0E31B903F2900180578 /* OrdersViewController.h */,
+				06E1A0E41B903F2900180578 /* OrdersViewController.m */,
 				06E723D21B8CA7B50025E773 /* API.h */,
 				06E723D31B8CA7B50025E773 /* API.m */,
 			);
@@ -2422,6 +2427,7 @@
 				D2CB225C1B60CB08001BC741 /* UserProfileViewController.m in Sources */,
 				90A706091A8B63B200376154 /* EMSDWebImagePrefetcher.m in Sources */,
 				90C641671B09ACFD00E1E6C9 /* amrFileCodec.mm in Sources */,
+				06E1A0E51B903F2900180578 /* OrdersViewController.m in Sources */,
 				90A705FB1A8B63B200376154 /* MWGridCell.m in Sources */,
 				90985E481A8A08D400976DD6 /* InvitationManager.m in Sources */,
 				9003D86F1939D8D000DC38A4 /* ChatSendHelper.m in Sources */,

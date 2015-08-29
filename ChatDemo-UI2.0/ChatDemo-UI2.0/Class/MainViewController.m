@@ -22,6 +22,7 @@
 #import "EMCDDeviceManager.h"
 #import "RobotManager.h"
 #import "UserProfileManager.h"
+#import "OrdersViewController.h"
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 static NSString *kMessageType = @"MessageType";
@@ -33,6 +34,7 @@ static NSString *kGroupName = @"GroupName";
     ChatListViewController *_chatListVC;
     ContactsViewController *_contactsVC;
     SettingsViewController *_settingsVC;
+    OrdersViewController *_orderVC;
 //    __weak CallViewController *_callController;
     
     UIBarButtonItem *_addFriendItem;
@@ -168,6 +170,15 @@ static NSString *kGroupName = @"GroupName";
     [self unSelectedTapTabBarItems:_contactsVC.tabBarItem];
     [self selectedTapTabBarItems:_contactsVC.tabBarItem];
     
+    _orderVC = [[OrdersViewController alloc] initWithNibName:nil bundle:nil];
+    _orderVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.addressbook", @"AddressBook")
+                                                           image:nil
+                                                             tag:1];
+    [_orderVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_contactsHL"]
+                         withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_contacts"]];
+    [self unSelectedTapTabBarItems:_orderVC.tabBarItem];
+    [self selectedTapTabBarItems:_orderVC.tabBarItem];
+    
     _settingsVC = [[SettingsViewController alloc] init];
     _settingsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting")
                                                            image:nil
@@ -178,7 +189,7 @@ static NSString *kGroupName = @"GroupName";
     [self unSelectedTapTabBarItems:_settingsVC.tabBarItem];
     [self selectedTapTabBarItems:_settingsVC.tabBarItem];
     
-    self.viewControllers = @[_chatListVC, _contactsVC, _settingsVC];
+    self.viewControllers = @[_chatListVC, _orderVC, _settingsVC];
     [self selectedTapTabBarItems:_chatListVC.tabBarItem];
 }
 
@@ -503,6 +514,7 @@ static NSString *kGroupName = @"GroupName";
         [alertView show];
         [_chatListVC isConnect:NO];
     }
+    NSLog(@"fucking login");
 }
 
 #pragma mark - IChatManagerDelegate 好友变化
@@ -529,7 +541,7 @@ static NSString *kGroupName = @"GroupName";
 
 - (void)_removeBuddies:(NSArray *)userNames
 {
-    [[EaseMob sharedInstance].chatManager removeConversationsByChatters:userNames deleteMessages:YES append2Chat:YES];
+//    [[EaseMob sharedInstance].chatManager removeConversationsByChatters:userNames deleteMessages:YES append2Chat:YES];
     [_chatListVC refreshDataSource];
     
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
@@ -547,7 +559,7 @@ static NSString *kGroupName = @"GroupName";
         [viewControllers removeObject:chatViewContrller];
         [self.navigationController setViewControllers:viewControllers animated:YES];
     }
-    [self showHint:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"delete", @"delete"), userNames[0]]];
+//    [self showHint:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"delete", @"delete"), userNames[0]]];
 }
 
 - (void)didUpdateBuddyList:(NSArray *)buddyList
