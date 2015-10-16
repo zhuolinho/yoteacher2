@@ -20,8 +20,18 @@
 #import "UserProfileEditViewController.h"
 //#import "BackupViewController.h"
 #import "APService.h"
+#import "API.h"
 
-@interface SettingsViewController ()
+@interface SettingsViewController ()<APIProtocol, UIActionSheetDelegate> {
+    API *myAPI;
+    API *urAPI;
+    NSString *nickname;
+    long iffree;
+    UIActionSheet *mySheet;
+}
+
+@property (strong, nonatomic) UIImageView *headImageView;
+@property (strong, nonatomic) UILabel *usernameLabel;
 
 @property (strong, nonatomic) UIView *footerView;
 
@@ -54,6 +64,19 @@
     
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableFooterView = self.footerView;
+    
+    myAPI = [[API alloc]init];
+    myAPI.delegate = self;
+    urAPI = [[API alloc]init];
+    urAPI.delegate = self;
+    
+    nickname = @"";
+    iffree = -1;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [myAPI getMyInfo];
 }
 
 - (void)didReceiveMemoryWarning
@@ -114,6 +137,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section == 1) {
+        return 2;
+    }
     return 0;
 }
 
@@ -122,7 +148,7 @@
     static NSString *cellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
     }
     
     if (indexPath.section == 0) {
@@ -180,6 +206,31 @@
 //            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 //        }
     }
+    else if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            [cell.contentView addSubview:self.headImageView];
+            [cell.contentView addSubview:self.usernameLabel];
+        }
+        else if (indexPath.row == 1) {
+            cell.textLabel.text = NSLocalizedString(@"my status", @"My Status");
+            if (iffree == 0) {
+                cell.detailTextLabel.text = NSLocalizedString(@"free", @"Free");
+                cell.imageView.image = [UIImage imageNamed:@"Free"];
+            }
+            else if (iffree == 1) {
+                cell.detailTextLabel.text = NSLocalizedString(@"busy", @"Busy");
+                cell.imageView.image = [UIImage imageNamed:@"Busy"];
+            }
+            else if (iffree == 2) {
+                cell.detailTextLabel.text = NSLocalizedString(@"away", @"Away");
+                cell.imageView.image = [UIImage imageNamed:@"Away"];
+            }
+            else {
+                cell.detailTextLabel.text = @"";
+                cell.imageView.image = [[UIImage alloc]init];
+            }
+        }
+    }
     
     return cell;
 }
@@ -188,12 +239,30 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    if (indexPath.row == 0) {
+        return 80;
+    }
+    return 40;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 1) {
+        if (indexPath.row == 1) {
+            if (mySheet == nil) {
+                mySheet = [[UIActionSheet alloc]init];
+                mySheet.delegate = self;
+                [mySheet addButtonWithTitle:NSLocalizedString(@"free", @"Free")];
+                [mySheet addButtonWithTitle:NSLocalizedString(@"away", @"Away")];
+                [mySheet addButtonWithTitle:NSLocalizedString(@"busy", @"Busy")];
+                [mySheet addButtonWithTitle:NSLocalizedString(@"cancel", @"Cancel")];
+                mySheet.cancelButtonIndex = 3;
+            }
+            [mySheet showInView:tableView];
+        }
+    }
+    else {
     if (indexPath.row == 1) {
         PushNotificationViewController *pushController = [[PushNotificationViewController alloc] initWithStyle:UITableViewStylePlain];
         [self.navigationController pushViewController:pushController animated:YES];
@@ -219,6 +288,7 @@
 //        BackupViewController *backupController = [[BackupViewController alloc] initWithNibName:nil bundle:nil];
 //        [self.navigationController pushViewController:backupController animated:YES];
 //    }
+    }
 }
 
 #pragma mark - getter
@@ -233,11 +303,11 @@
         line.backgroundColor = [UIColor lightGrayColor];
         [_footerView addSubview:line];
         
-        UIButton *logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 20, _footerView.frame.size.width - 20, 45)];
+        UIButton *logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(100, 20, _footerView.frame.size.width - 200, 45)];
         [logoutButton setBackgroundColor:RGBACOLOR(0xfe, 0x64, 0x50, 1)];
-        NSDictionary *loginInfo = [[EaseMob sharedInstance].chatManager loginInfo];
-        NSString *username = [loginInfo objectForKey:kSDKUsername];
-        NSString *logoutButtonTitle = [[NSString alloc] initWithFormat:NSLocalizedString(@"setting.loginUser", @"log out(%@)"), username];
+//        NSDictionary *loginInfo = [[EaseMob sharedInstance].chatManager loginInfo];
+        NSString *username = @"";
+        NSString *logoutButtonTitle = [[NSString alloc] initWithFormat:NSLocalizedString(@"setting.loginUser", @"log out%@"), username];
         [logoutButton setTitle:logoutButtonTitle forState:UIControlStateNormal];
         [logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [logoutButton addTarget:self action:@selector(logoutAction) forControlEvents:UIControlEventTouchUpInside];
@@ -301,5 +371,72 @@
         }
     } onQueue:nil];
 }
- 
+
+- (UIImageView*)headImageView
+{
+    if (!_headImageView) {
+        _headImageView = [[UIImageView alloc] init];
+        _headImageView.frame = CGRectMake(20, 10, 60, 60);
+        _headImageView.contentMode = UIViewContentModeScaleToFill;
+        _headImageView.image = [UIImage imageNamed:@"chatListCellHead"];
+    }
+    return _headImageView;
+}
+
+- (UILabel*)usernameLabel
+{
+    if (!_usernameLabel) {
+        _usernameLabel = [[UILabel alloc] init];
+        _usernameLabel.frame = CGRectMake(CGRectGetMaxX(_headImageView.frame) + 10.f, 10, 200, 20);
+//        _usernameLabel.textColor = [UIColor lightGrayColor];
+    }
+    return _usernameLabel;
+}
+
+- (void)didReceiveAPIErrorOf:(API *)api data:(long)errorNo {
+    if (api == urAPI) {
+        TTAlertNoTitle(@"设置失败");
+    }
+}
+
+- (void)didReceiveAPIResponseOf:(API *)api data:(NSDictionary *)data {
+    if (api == myAPI) {
+        NSDictionary *res = data[@"result"];
+        if (res[@"username"] != nil) {
+            nickname = res[@"nickname"];
+            iffree = [res[@"iffree"] integerValue];
+            _usernameLabel.text = nickname;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+            if ([API getPicByKey:res[@"avatar"]] == nil) {
+                NSString *str = [NSString stringWithFormat:@"%@%@", HOST, res[@"avatar"]];
+                NSURL *url = [NSURL URLWithString:str];
+                NSURLRequest *requst = [NSURLRequest requestWithURL:url];
+                [NSURLConnection sendAsynchronousRequest:requst queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                    if (connectionError == nil) {
+                        UIImage *img = [UIImage imageWithData:data];
+                        if (img != nil) {
+                            [API setPicByKey:res[@"avatar"] pic:img];
+                            self->_headImageView.image = img;
+                        }
+                    }
+                }];
+            }
+            else {
+                _headImageView.image = [API getPicByKey:res[@"avatar"]];
+            }
+        }
+    }
+    else if (api == urAPI) {
+        [myAPI getMyInfo];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != 3) {
+        [urAPI setIffree:buttonIndex];
+    }
+}
+
 @end

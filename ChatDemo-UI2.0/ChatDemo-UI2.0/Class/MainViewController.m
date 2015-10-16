@@ -77,7 +77,7 @@ static NSString *kGroupName = @"GroupName";
     
     UIButton *addButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     [addButton setImage:[UIImage imageNamed:@"add.png"] forState:UIControlStateNormal];
-    [addButton addTarget:_contactsVC action:@selector(addFriendAction) forControlEvents:UIControlEventTouchUpInside];
+    [addButton addTarget:_orderVC action:@selector(chatAction) forControlEvents:UIControlEventTouchUpInside];
     _addFriendItem = [[UIBarButtonItem alloc] initWithCustomView:addButton];
     
     [self setupUnreadMessageCount];

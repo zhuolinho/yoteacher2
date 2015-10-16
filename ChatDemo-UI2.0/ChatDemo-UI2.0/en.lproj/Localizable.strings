@@ -292,7 +292,7 @@
 
 //setting
 "setting.autoLogin" = "automatic login";
-"setting.loginUser" = "log out(%@)";
+"setting.loginUser" = "log out%@";
 "setting.logoutOngoing" = "loging out...";
 
 "setting.notDisturb" = "No disturbing";
@@ -343,3 +343,9 @@
 "NSDateCategory.text12" = "aa hh:mm";
 "NSDateCategory.text13" = "M-d HH:mm";
 "NSDateCategory.text14" = "today %@";
+
+//YoTeacher
+"free" = "Free";
+"busy" = "Busy";
+"away" = "Away";
+"my status" = "My Status";

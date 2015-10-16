@@ -77,9 +77,12 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     [APService handleRemoteNotification:userInfo];
-    if (_mainController) {
-        [_mainController jumpToChatList];
-    }
+    NSDictionary *aps = userInfo[@"aps"];
+    NSString *message = aps[@"alert"];
+    TTAlert(message);
+//    if (_mainController) {
+//        [_mainController jumpToChatList];
+//    }
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification

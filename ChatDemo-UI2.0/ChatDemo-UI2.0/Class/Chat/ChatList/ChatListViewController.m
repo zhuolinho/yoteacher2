@@ -22,6 +22,7 @@
 #import "RobotManager.h"
 #import "UserProfileManager.h"
 #import "RobotChatViewController.h"
+#import "API.h"
 
 @implementation EMConversation (search)
 
@@ -169,6 +170,7 @@
         _searchBar.delegate = self;
         _searchBar.placeholder = NSLocalizedString(@"search", @"Search");
         _searchBar.backgroundColor = [UIColor colorWithRed:0.747 green:0.756 blue:0.751 alpha:1.000];
+        _searchBar.hidden = true;
     }
     
     return _searchBar;
@@ -177,7 +179,7 @@
 - (UITableView *)tableView
 {
     if (_tableView == nil) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.searchBar.frame.size.height, self.view.frame.size.width, self.view.frame.size.height - self.searchBar.frame.size.height) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         _tableView.delegate = self;
@@ -380,6 +382,16 @@
     if (conversation.conversationType == eConversationTypeChat) {
         cell.name = [[RobotManager sharedInstance] getRobotNickWithUsername:conversation.chatter];
         cell.placeholderImage = [UIImage imageNamed:@"chatListCellHead.png"];
+        if ([API getNameByKey:conversation.chatter]) {
+//            NSLog(@"%@", [API getNameByKey:conversation.chatter]);
+            cell.name = [API getNameByKey:conversation.chatter];
+        }
+        else {
+            [self post:@"getAvatarAndNicknameFromUid.action" username:conversation.chatter];
+        }
+        if ([API getPicByKey:conversation.chatter]) {
+            cell.placeholderImage = [API getPicByKey:conversation.chatter];
+        }
     }
     else{
         NSString *imageName = @"groupPublicHeader";
@@ -620,6 +632,66 @@
 // 根据环信id得到要显示用户名，如果返回nil，则默认显示环信id
 - (NSString *)nickNameWithChatter:(NSString *)chatter{
     return chatter;
+}
+
+- (void)post:(NSString *)action username:(NSString *)username {
+    NSLog(@"%@", username);
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSString *yo_token = [ud objectForKey:@"yo_token"];
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:yo_token, @"token", username, @"userstr", nil];
+    NSString *str = [NSString stringWithFormat:@"%@/yozaii2/api/%@", HOST, action];
+    NSURL *url = [NSURL URLWithString:str];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    NSMutableArray *parametersArray = [[NSMutableArray alloc]init];
+    for (NSString *key in [dic allKeys]) {
+        id value = [dic objectForKey:key];
+        if ([value isKindOfClass:[NSString class]]) {
+            [parametersArray addObject:[NSString stringWithFormat:@"%@=%@",key,value]];
+        }
+    }
+    NSString *dicString = [parametersArray componentsJoinedByString:@"&"];
+    NSData *data = [dicString dataUsingEncoding:NSUTF8StringEncoding];
+    request.HTTPBody = data;
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (connectionError == nil) {
+            NSError *err = nil;
+            id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&err];
+            if(jsonObject != nil && err == nil){
+                if([jsonObject isKindOfClass:[NSDictionary class]]){
+                    NSDictionary *deserializedDictionary = (NSDictionary *)jsonObject;
+                    long errNo = [deserializedDictionary[@"errno"] integerValue];
+                    if (errNo == 0) {
+                        NSDictionary *res = deserializedDictionary[@"result"];
+                        NSString *nickname = res[@"nickname"];
+                        [API setNameByKey:username name:[nickname componentsSeparatedByString:@","][0]];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.tableView reloadData];
+                        });
+                        
+                        NSString *avatar = [res[@"avatar"] componentsSeparatedByString:@","][0];
+                        if ([API getPicByKey:username] == nil && ![avatar isEqual: @"*"]) {
+                            NSString *str = [NSString stringWithFormat:@"%@%@", HOST, avatar];
+                            NSURL *url = [NSURL URLWithString:str];
+                            NSURLRequest *requst = [NSURLRequest requestWithURL:url];
+                            [NSURLConnection sendAsynchronousRequest:requst queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                                if (connectionError == nil) {
+                                    UIImage *img = [UIImage imageWithData:data];
+                                    if (img != nil) {
+                                        [API setPicByKey:username pic:img];
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            [self.tableView reloadData];
+                                        });
+                                    }
+                                }
+                            }];
+                        }
+
+                    }
+                }
+            }
+        }
+    }];
 }
 
 @end

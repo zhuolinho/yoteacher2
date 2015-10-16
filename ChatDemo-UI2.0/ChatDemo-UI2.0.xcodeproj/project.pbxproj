@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0645943C1B8B6CEB00C8216C /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0645943A1B8B6CEB00C8216C /* libPushSDK.a */; };
-		0645943D1B8B6CEB00C8216C /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0645943B1B8B6CEB00C8216C /* PushConfig.plist */; };
+		061C89261B93D066000B1CEA /* OrdersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C89251B93D066000B1CEA /* OrdersCell.m */; };
+		06B8BEA31B92BB77007AF229 /* libPushSDK-1.8.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B8BEA21B92BB77007AF229 /* libPushSDK-1.8.5.a */; };
+		06B8BEA51B92BBAE007AF229 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06B8BEA41B92BBAE007AF229 /* PushConfig.plist */; };
 		06C60D8B1B8C9F7600913564 /* libEaseMobClientSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C60D8A1B8C9F7600913564 /* libEaseMobClientSDK.a */; };
 		06E1A0E51B903F2900180578 /* OrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E1A0E41B903F2900180578 /* OrdersViewController.m */; };
 		06E723D41B8CA7B50025E773 /* API.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E723D31B8CA7B50025E773 /* API.m */; };
@@ -375,9 +376,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		064594391B8B6CEB00C8216C /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
-		0645943A1B8B6CEB00C8216C /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
-		0645943B1B8B6CEB00C8216C /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
+		061C89241B93D066000B1CEA /* OrdersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrdersCell.h; sourceTree = "<group>"; };
+		061C89251B93D066000B1CEA /* OrdersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersCell.m; sourceTree = "<group>"; };
+		06B8BEA11B92BB77007AF229 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APService.h; path = lib/APService.h; sourceTree = SOURCE_ROOT; };
+		06B8BEA21B92BB77007AF229 /* libPushSDK-1.8.5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.5.a"; path = "lib/libPushSDK-1.8.5.a"; sourceTree = SOURCE_ROOT; };
+		06B8BEA41B92BBAE007AF229 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PushConfig.plist; path = lib/PushConfig.plist; sourceTree = SOURCE_ROOT; };
 		06C60D8A1B8C9F7600913564 /* libEaseMobClientSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEaseMobClientSDK.a; sourceTree = "<group>"; };
 		06E1A0E31B903F2900180578 /* OrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrdersViewController.h; sourceTree = "<group>"; };
 		06E1A0E41B903F2900180578 /* OrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersViewController.m; sourceTree = "<group>"; };
@@ -920,7 +923,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D29A6BB61B7209C8002324BB /* Social.framework in Frameworks */,
-				0645943C1B8B6CEB00C8216C /* libPushSDK.a in Frameworks */,
 				D29A6BB51B7209C1002324BB /* Accounts.framework in Frameworks */,
 				C035E8151AEA40F400283EE9 /* CoreData.framework in Frameworks */,
 				EB1975B21ADE0C77002E7E27 /* libc++.dylib in Frameworks */,
@@ -930,6 +932,7 @@
 				90C6416B1B09ACFD00E1E6C9 /* libopencore-amrwb.a in Frameworks */,
 				3CBB931C1A14B227007FED9E /* libsqlite3.dylib in Frameworks */,
 				3CE6293319A1B13700829632 /* CoreText.framework in Frameworks */,
+				06B8BEA31B92BB77007AF229 /* libPushSDK-1.8.5.a in Frameworks */,
 				3C1CEF7F196EA37600DBA56B /* ImageIO.framework in Frameworks */,
 				3C06AB0319405D330076FF0B /* MapKit.framework in Frameworks */,
 				3C06AAFF194050A00076FF0B /* CoreLocation.framework in Frameworks */,
@@ -955,9 +958,9 @@
 		064594381B8B6CEB00C8216C /* libJPush */ = {
 			isa = PBXGroup;
 			children = (
-				064594391B8B6CEB00C8216C /* APService.h */,
-				0645943A1B8B6CEB00C8216C /* libPushSDK.a */,
-				0645943B1B8B6CEB00C8216C /* PushConfig.plist */,
+				06B8BEA11B92BB77007AF229 /* APService.h */,
+				06B8BEA41B92BBAE007AF229 /* PushConfig.plist */,
+				06B8BEA21B92BB77007AF229 /* libPushSDK-1.8.5.a */,
 			);
 			name = libJPush;
 			path = ../../../Documents/Action/bra1/libJPush;
@@ -967,6 +970,8 @@
 			isa = PBXGroup;
 			children = (
 				06E1A0E31B903F2900180578 /* OrdersViewController.h */,
+				061C89241B93D066000B1CEA /* OrdersCell.h */,
+				061C89251B93D066000B1CEA /* OrdersCell.m */,
 				06E1A0E41B903F2900180578 /* OrdersViewController.m */,
 				06E723D21B8CA7B50025E773 /* API.h */,
 				06E723D31B8CA7B50025E773 /* API.m */,
@@ -2212,7 +2217,7 @@
 				EBD2AB331A7CDAC000D16528 /* VoiceSearchFeedback018.png in Resources */,
 				EBD2AB6A1A7CDAC000D16528 /* chatBar_recordSelected@2x.png in Resources */,
 				EBD2ABBA1A7CDAC000D16528 /* tabbarBackground@2x.png in Resources */,
-				0645943D1B8B6CEB00C8216C /* PushConfig.plist in Resources */,
+				06B8BEA51B92BBAE007AF229 /* PushConfig.plist in Resources */,
 				EBD2AB5F1A7CDAC000D16528 /* chatBar_keyboardSelected.png in Resources */,
 				EBD2AB2E1A7CDAC000D16528 /* VoiceSearchFeedback015@2x.png in Resources */,
 				909E89C21A6E7A270064B20F /* LoginViewController.xib in Resources */,
@@ -2402,6 +2407,7 @@
 				90A7060A1A8B63B200376154 /* MKAnnotationView+EMWebCache.m in Sources */,
 				90A705FF1A8B63B200376154 /* MWTapDetectingImageView.m in Sources */,
 				9003D8761939D8D000DC38A4 /* DXRecordView.m in Sources */,
+				061C89261B93D066000B1CEA /* OrdersCell.m in Sources */,
 				06E723D41B8CA7B50025E773 /* API.m in Sources */,
 				3C914D8519514BBD0002DAD3 /* ContactSelectionViewController.m in Sources */,
 				283403091A9EBB8200B7DE9B /* GroupSubjectChangingViewController.m in Sources */,
@@ -2609,6 +2615,7 @@
 				EASEMOB_LIB = "";
 				EASEMOB_LIBNAME = "";
 				EASEMOB_ROOT = "";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2631,8 +2638,8 @@
 					"$(PROJECT_DIR)/../EaseMobSDK/lib",
 					"$(PROJECT_DIR)/ChatDemo-UI2.0/3rdparty/VoiceConvert/opencore-amrnb",
 					"$(PROJECT_DIR)/ChatDemo-UI2.0/3rdparty/VoiceConvert/opencore-amrwb",
-					/Users/hojolin/Documents/Action/bra1/libJPush,
-					"/Users/hojolin/Downloads/iOSSDK-20150817/EaseMobSDK/lib",
+					"/Users/hojolin/Documents/Yozaii/iOSSDK-20150817/EaseMobSDK/lib",
+					"$(PROJECT_DIR)/lib",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
@@ -2651,10 +2658,12 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
 				EASEMOB_LIBNAME = "";
 				EASEMOB_ROOT = "";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2677,8 +2686,8 @@
 					"$(PROJECT_DIR)/../EaseMobSDK/lib",
 					"$(PROJECT_DIR)/ChatDemo-UI2.0/3rdparty/VoiceConvert/opencore-amrnb",
 					"$(PROJECT_DIR)/ChatDemo-UI2.0/3rdparty/VoiceConvert/opencore-amrwb",
-					/Users/hojolin/Documents/Action/bra1/libJPush,
-					"/Users/hojolin/Downloads/iOSSDK-20150817/EaseMobSDK/lib",
+					"/Users/hojolin/Documents/Yozaii/iOSSDK-20150817/EaseMobSDK/lib",
+					"$(PROJECT_DIR)/lib",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";

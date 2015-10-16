@@ -8,11 +8,22 @@
 
 #import "API.h"
 
+static NSMutableDictionary *picDic;
+static NSMutableDictionary *nameDic;
+
 @implementation API
 
 - (void)login:(NSString *)username password:(NSString *)password {
     NSDictionary *d = [[NSDictionary alloc]initWithObjectsAndKeys:username, @"username", password, @"password", @"1", @"type", nil];
     [self post:@"auth.action" dic:d];
+}
+
+- (void)setIffree:(NSInteger)status {
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSString *yo_token = [ud objectForKey:@"yo_token"];
+    NSString *iffree = [NSString stringWithFormat:@"%ld", (long)status];
+    NSDictionary *d = [[NSDictionary alloc]initWithObjectsAndKeys:yo_token, @"token", iffree, @"iffree", nil];
+    [self post:@"setIffree.action" dic:d];
 }
 
 - (void)getMyInfo {
@@ -22,8 +33,16 @@
     [self post:@"getMyInfo.action" dic:d];
 }
 
+- (void)getMyMissions:(long)uid {
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSString *yo_token = [ud objectForKey:@"yo_token"];
+    NSString *iffree = [NSString stringWithFormat:@"%ld", (long)uid];
+    NSDictionary *d = [[NSDictionary alloc]initWithObjectsAndKeys:yo_token, @"token", iffree, @"uid", @"0", @"start", @"100", @"limit", nil];
+    [self post:@"getTakeMissions.action" dic:d];
+}
+
 - (void)post:(NSString *)action dic:(NSDictionary *)dic {
-    NSString *str = [NSString stringWithFormat:@"http://115.29.166.167:8080/yozaii2/api/%@", action];
+    NSString *str = [NSString stringWithFormat:@"%@/yozaii2/api/%@", HOST, action];
     NSURL *url = [NSURL URLWithString:str];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
@@ -73,6 +92,34 @@
             }
         }
     }];
+}
+
++ (UIImage *)getPicByKey:(NSString *)key {
+    if (picDic != nil) {
+        return [picDic objectForKey:key];
+    }
+    return nil;
+}
+
++ (void)setPicByKey:(NSString *)key pic:(UIImage *)pic {
+    if (picDic == nil) {
+        picDic = [[NSMutableDictionary alloc]init];
+    }
+    [picDic setValue:pic forKey:key];
+}
+
++ (NSString *)getNameByKey:(NSString *)key {
+    if (nameDic != nil) {
+        return [nameDic objectForKey:key];
+    }
+    return nil;
+}
+
++ (void)setNameByKey:(NSString *)key name:(NSString *)name {
+    if (nameDic == nil) {
+        nameDic = [[NSMutableDictionary alloc]init];
+    }
+    [nameDic setValue:name forKey:key];
 }
 
 @end

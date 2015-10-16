@@ -10,4 +10,6 @@
 
 @interface OrdersViewController : UITableViewController
 
+- (void)chatActoin;
+
 @end

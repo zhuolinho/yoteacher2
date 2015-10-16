@@ -40,10 +40,10 @@
 #else
     apnsCertName = @"teacher_pro";
 #endif
-
+    NSLog(apnsCertName);
     if (![self isSpecifyServer]) {
         [[EaseMob sharedInstance] registerSDKWithAppKey:@"yozaiitech#yozaii"
-                                           apnsCertName:@"teacher_pro"
+                                           apnsCertName:apnsCertName
                                             otherConfig:@{kSDKConfigEnableConsoleLogger:@YES}];
     }
     
@@ -251,7 +251,7 @@
         [[EaseMob sharedInstance].chatManager asyncFetchMyGroupsList];
         [APService setAlias:loginInfo[@"username"] callbackSelector:nil object:nil];
         alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"login.endAutoLogin", @"End automatic login...") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-        NSLog(@"%@", loginInfo);
+//        NSLog(@"%@", loginInfo);
     }
     
 //    [alertView show];

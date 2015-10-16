@@ -291,7 +291,7 @@
 
 //setting
 "setting.autoLogin" = "自动登录";
-"setting.loginUser" = "退出登录(%@)";
+"setting.loginUser" = "退出登录%@";
 "setting.logoutOngoing" = "正在退出...";
 
 "setting.notDisturb" = "功能消息免打扰";
@@ -342,3 +342,9 @@
 "NSDateCategory.text12" = "晚上hh:mm";
 "NSDateCategory.text13" = "昨天HH:mm";
 "NSDateCategory.text14" = "今天 %@";
+
+//YoTeacher
+"free" = "在线";
+"busy" = "忙碌";
+"away" = "离线";
+"my status" = "我的状态";

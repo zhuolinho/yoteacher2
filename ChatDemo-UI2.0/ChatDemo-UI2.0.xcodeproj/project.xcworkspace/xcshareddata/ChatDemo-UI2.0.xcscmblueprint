@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "5131C8F720BE76B7B2B753EBA43E608DF19C521B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "E1709933C980E0ACF99E32BF40DF8E40C2C03A61" : 0,
+    "5131C8F720BE76B7B2B753EBA43E608DF19C521B" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "444C6F9E-5F58-450D-97AA-38BA89E11B9C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "E1709933C980E0ACF99E32BF40DF8E40C2C03A61" : "Documents\/Action\/bra1",
+    "5131C8F720BE76B7B2B753EBA43E608DF19C521B" : "yoteacher2"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "ChatDemo-UI2.0",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ChatDemo-UI2.0\/ChatDemo-UI2.0.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/github.com\/zhuolinho\/yoteacher2.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5131C8F720BE76B7B2B753EBA43E608DF19C521B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/github.com\/zhuolinho\/demo.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E1709933C980E0ACF99E32BF40DF8E40C2C03A61"
+    }
+  ]
+}

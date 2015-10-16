@@ -8,9 +8,16 @@
 
 #import "OrdersViewController.h"
 #import "API.h"
+#import "OrdersCell.h"
+#import "ChatViewController.h"
 
-@interface OrdersViewController ()<APIProtocol>{
+@interface OrdersViewController ()<APIProtocol, UIAlertViewDelegate>{
     API *myAPI;
+    API *urAPI;
+    long uid;
+    NSArray *arr;
+    UITextField *usernameTF;
+    UITextField *nicknameTF;
 }
 
 @end
@@ -21,6 +28,9 @@
     [super viewDidLoad];
     myAPI = [[API alloc]init];
     myAPI.delegate = self;
+    urAPI = [[API alloc]init];
+    urAPI.delegate = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -30,7 +40,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [myAPI getMyInfo];
+    if (uid) {
+        [urAPI getMyMissions:uid];
+    }
+    else {
+        [myAPI getMyInfo];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,32 +58,108 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return arr.count;
 }
 
 - (void)didReceiveAPIResponseOf:(API *)api data:(NSDictionary *)data {
-    NSLog(@"%@",data);
+    if (api == myAPI) {
+        NSDictionary *res = data[@"result"];
+        if (res[@"username"] != nil) {
+            uid = [res[@"uid"] integerValue];
+            [urAPI getMyMissions:uid];
+        }
+    }
+    else if (api == urAPI) {
+        arr = data[@"result"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    }
 }
 
 - (void)didReceiveAPIErrorOf:(API *)api data:(long)errorNo {
     NSLog(@"%ld",errorNo);
 }
 
-/*
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    static NSString *identify = @"chatListCell";
+    OrdersCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
     
+    if (!cell) {
+        cell = [[OrdersCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identify];
+    }
+    
+    NSDictionary *dict = [arr objectAtIndex:indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.name = dict[@"nickname"];
+    cell.detailMsg = dict[@"title"];
+    NSString *createTime = dict[@"createTime"];
+    cell.time = [createTime substringToIndex:10];
+    if ([API getPicByKey:dict[@"avatar"]] == nil) {
+        NSString *str = [NSString stringWithFormat:@"%@%@", HOST, dict[@"avatar"]];
+        NSURL *url = [NSURL URLWithString:str];
+        NSURLRequest *requst = [NSURLRequest requestWithURL:url];
+        [NSURLConnection sendAsynchronousRequest:requst queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            if (connectionError == nil) {
+                UIImage *img = [UIImage imageWithData:data];
+                if (img != nil) {
+                    [API setPicByKey:dict[@"avatar"] pic:img];
+                    cell.placeholderImage = img;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.tableView reloadData];
+                    });
+                }
+            }
+        }];
+    }
+    else {
+        cell.placeholderImage = [API getPicByKey:dict[@"avatar"]];
+    }
+
+//    cell.placeholderImage ;
     // Configure the cell...
     
     return cell;
 }
-*/
+
+- (void)chatAction {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"联系语伴" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIView *myView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 300, 90)];
+//    myView.backgroundColor = [UIColor redColor];
+    usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 0, 250, 30)];
+    usernameTF.placeholder = @"用户名";
+    usernameTF.borderStyle = UITextBorderStyleRoundedRect;
+    nicknameTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 40, 250, 30)];
+    nicknameTF.placeholder = @"昵称";
+    nicknameTF.borderStyle = UITextBorderStyleRoundedRect;
+    [myView addSubview:usernameTF];
+    [myView addSubview:nicknameTF];
+    [alertView setValue:myView forKey:@"accessoryView"];
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    [usernameTF resignFirstResponder];
+    [nicknameTF resignFirstResponder];
+    if (buttonIndex != alertView.cancelButtonIndex && ![usernameTF.text  isEqual: @""] && ![nicknameTF.text  isEqual: @""]) {
+        ChatViewController *chatController;
+        chatController = [[ChatViewController alloc] initWithChatter:usernameTF.text
+                                                    conversationType:eConversationTypeChat];
+        chatController.title = nicknameTF.text;
+        [self.navigationController pushViewController:chatController animated:YES];
+    }
+}
 
 /*
 // Override to support conditional editing of the table view.
