@@ -36,9 +36,8 @@ static NSMutableDictionary *nameDic;
 - (void)getMyMissions:(long)uid {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *yo_token = [ud objectForKey:@"yo_token"];
-    NSString *iffree = [NSString stringWithFormat:@"%ld", (long)uid];
-    NSDictionary *d = [[NSDictionary alloc]initWithObjectsAndKeys:yo_token, @"token", iffree, @"uid", @"0", @"start", @"100", @"limit", nil];
-    [self post:@"getTakeMissions.action" dic:d];
+    NSDictionary *d = [[NSDictionary alloc]initWithObjectsAndKeys:yo_token, @"token", @"0", @"start", @"1000", @"limit", nil];
+    [self post:@"getMyCollectionListForTeacher.action" dic:d];
 }
 
 - (void)post:(NSString *)action dic:(NSDictionary *)dic {

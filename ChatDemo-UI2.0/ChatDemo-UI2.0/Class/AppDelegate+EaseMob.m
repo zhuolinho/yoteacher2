@@ -171,7 +171,7 @@
                                                    delegate:nil
                                           cancelButtonTitle:NSLocalizedString(@"ok", @"OK")
                                           otherButtonTitles:nil];
-    [alert show];
+//    [alert show];
 }
 
 // 注册推送
@@ -389,7 +389,7 @@
                                                    delegate:nil
                                           cancelButtonTitle:NSLocalizedString(@"ok", @"OK")
                                           otherButtonTitles:nil];
-    [alert show];
+//    [alert show];
 
 }
 

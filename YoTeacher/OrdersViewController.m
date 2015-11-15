@@ -77,6 +77,7 @@
     }
     else if (api == urAPI) {
         arr = data[@"result"];
+        NSLog(@"%@", arr);
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
         });
@@ -101,20 +102,23 @@
     }
     
     NSDictionary *dict = [arr objectAtIndex:indexPath.row];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.name = dict[@"nickname"];
-    cell.detailMsg = dict[@"title"];
-    NSString *createTime = dict[@"createTime"];
-    cell.time = [createTime substringToIndex:10];
-    if ([API getPicByKey:dict[@"avatar"]] == nil) {
-        NSString *str = [NSString stringWithFormat:@"%@%@", HOST, dict[@"avatar"]];
+    cell.name = dict[@"studentNickname"];
+    cell.detailMsg = @"已设置你为首席语伴";
+    NSString *createTime = dict[@"setTime"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *setTime = [dateFormatter dateFromString:createTime];
+    [dateFormatter setDateFormat:@"MM-dd HH:mm"];
+    cell.time = [dateFormatter stringFromDate:setTime];
+    if ([API getPicByKey:dict[@"studentAvatar"]] == nil) {
+        NSString *str = [NSString stringWithFormat:@"%@%@", HOST, dict[@"studentAvatar"]];
         NSURL *url = [NSURL URLWithString:str];
         NSURLRequest *requst = [NSURLRequest requestWithURL:url];
         [NSURLConnection sendAsynchronousRequest:requst queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
             if (connectionError == nil) {
                 UIImage *img = [UIImage imageWithData:data];
                 if (img != nil) {
-                    [API setPicByKey:dict[@"avatar"] pic:img];
+                    [API setPicByKey:dict[@"studentAvatar"] pic:img];
                     cell.placeholderImage = img;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.tableView reloadData];
@@ -124,13 +128,22 @@
         }];
     }
     else {
-        cell.placeholderImage = [API getPicByKey:dict[@"avatar"]];
+        cell.placeholderImage = [API getPicByKey:dict[@"studentAvatar"]];
     }
 
 //    cell.placeholderImage ;
     // Configure the cell...
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    ChatViewController *chatController;
+    chatController = [[ChatViewController alloc] initWithChatter:arr[indexPath.row][@"studentUsername"]
+                                                conversationType:eConversationTypeChat];
+    chatController.title = arr[indexPath.row][@"studentNickname"];
+    [self.navigationController pushViewController:chatController animated:YES];
 }
 
 - (void)chatAction {

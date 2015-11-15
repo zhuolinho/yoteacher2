@@ -79,7 +79,7 @@
     [APService handleRemoteNotification:userInfo];
     NSDictionary *aps = userInfo[@"aps"];
     NSString *message = aps[@"alert"];
-    TTAlert(message);
+//    TTAlert(message);
 //    if (_mainController) {
 //        [_mainController jumpToChatList];
 //    }
