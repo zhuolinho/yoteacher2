@@ -28,6 +28,7 @@
 @property (strong, nonatomic) EMConversation *conversation;//会话管理者
 - (instancetype)initWithChatter:(NSString *)chatter isGroup:(BOOL)isGroup;
 - (instancetype)initWithChatter:(NSString *)chatter conversationType:(EMConversationType)type;
+- (instancetype)initWithMessage:(NSString *)chatter message1:(NSString *)message1 message2:(NSString *)message2;
 
 - (void)reloadData;
 

@@ -53,6 +53,8 @@
     
     NSMutableArray *_messages;
     BOOL _isScrollToBottom;
+    NSString *_message1;
+    NSString *_message2;
 }
 
 @property (nonatomic) BOOL isChatGroup;
@@ -82,6 +84,24 @@
     EMConversationType type = isGroup ? eConversationTypeGroupChat : eConversationTypeChat;
     self = [self initWithChatter:chatter conversationType:type];
     if (self) {
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithMessage:(NSString *)chatter message1:(NSString *)message1 message2:(NSString *)message2 {
+    self = [super initWithNibName:nil bundle:nil];
+    if (self) {
+        _isPlayingAudio = NO;
+        _chatter = chatter;
+        _conversationType = eConversationTypeChat;
+        _messages = [NSMutableArray array];
+        //根据接收者的username获取当前会话的管理者
+        _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:chatter
+                                                                    conversationType:eConversationTypeChat];
+        [_conversation markAllMessagesAsRead:YES];
+        _message1 = message1;
+        _message2 = message2;
     }
     
     return self;
@@ -261,6 +281,13 @@
         _isScrollToBottom = YES;
     }
     self.isInvisible = NO;
+    
+    if (_message1) {
+        [self sendTextMessage:_message1];
+    }
+    if (_message2) {
+        [self sendTextMessage:_message2];
+    }
 }
 
 

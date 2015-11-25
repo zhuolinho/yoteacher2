@@ -127,6 +127,11 @@ static NSString *kGroupName = @"GroupName";
         [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@NO];
     } else if (alertView.tag == 101) {
         [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@NO];
+    } else if (alertView.tag == 666 && buttonIndex != alertView.cancelButtonIndex) {
+        ChatViewController *chatController;
+        chatController = [[ChatViewController alloc] initWithMessage:_username message1:@"你好朋友！外语帮手可以帮您提高外语能力。你有困难可以提出，我们会为您解决问题。你也可以跟着预备的练习计划提高外语。比如；第一周练生活口语（就餐、买卖、问路等日常会话）" message2:@"Hello, friend! Yohelper  is committed to help you improve your foreign language skills. We can help you solve  language issues on demand, and you can also follow our standard exercise program for a better foreign language proficiency. For example: we can start by practicing common phrases."];
+        chatController.title = _nickname;
+        [self.navigationController pushViewController:chatController animated:YES];
     }
 }
 

@@ -79,10 +79,24 @@
     [APService handleRemoteNotification:userInfo];
     NSDictionary *aps = userInfo[@"aps"];
     NSString *message = aps[@"alert"];
-//    TTAlert(message);
-//    if (_mainController) {
-//        [_mainController jumpToChatList];
-//    }
+    if ([message componentsSeparatedByString:@"User ("].count > 1) {
+        NSString *str = [message componentsSeparatedByString:@"User ("][1];
+        if ([str componentsSeparatedByString:@","].count > 1) {
+            NSString *username = [str componentsSeparatedByString:@","][0];
+            NSString *string = [str componentsSeparatedByString:@","][1];
+            if (_mainController) {
+                _mainController.nickname = [string componentsSeparatedByString:@")"][0];
+                _mainController.username = username;
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:message message:nil delegate:_mainController cancelButtonTitle:@"Cancel" otherButtonTitles:@"Talk", nil];
+                alert.tag = 666;
+                [alert show];
+            }
+        }
+    }
+    
+    if (_mainController) {
+        [_mainController jumpToChatList];
+    }
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification

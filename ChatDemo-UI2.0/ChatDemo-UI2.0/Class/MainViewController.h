@@ -25,4 +25,8 @@
 
 - (void)didReceiveLocalNotification:(UILocalNotification *)notification;
 
+@property NSString *username;
+
+@property NSString *nickname;
+
 @end
